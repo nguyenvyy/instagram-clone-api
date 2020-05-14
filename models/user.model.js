@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+const {Schema, model} = require("mongoose");
 const isEmail = require('validator/lib/isEmail')
-const userSchema = mongoose.Schema({
+const userSchema = new Schema({
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    required: true,
     unique: true,
     maxLength: 64,
     minLength:3,
@@ -37,4 +37,9 @@ const userSchema = mongoose.Schema({
   }
 }, {timestamps: true});
 
-module.exports = mongoose.model("User", userSchema);
+
+userSchema.methods.getId = function() {
+  return this._id.toString()
+}
+
+module.exports = model("User", userSchema);

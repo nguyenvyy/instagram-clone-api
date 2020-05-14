@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const {env} = require('../config/globals')
 const createConnection = () =>
   mongoose
-    .connect(process.env.MONGODB_CONNECT_URI, {
+    .connect(env.MONGODB_CONNECT_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
