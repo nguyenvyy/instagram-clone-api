@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose')
 
 const notificationSchema = new Schema({
     toUserId: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
         index: true
     },
@@ -12,7 +12,7 @@ const notificationSchema = new Schema({
         required: true
     },
     byPostId: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true
     },
     content: {

@@ -17,17 +17,17 @@ const postSchema = new Schema({
 		required: true
 	},
 	likeByIds: {
-		type: [ String ],
+		type: [ Schema.Types.ObjectId ],
 		default: []
 	}
 }, {timestamps: true});
 
 postSchema.methods.checkUserIsLiked = function(userId) {
-	return this.likeByIds.include(userId);
+	return this.likeByIds.includes(userId);
 };
 
 postSchema.methods.getId = function() {
 	return this._id.toString();
 };
 
-module.exports = model(postSchema, 'Post');
+module.exports = model('Post', postSchema);
