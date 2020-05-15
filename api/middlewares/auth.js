@@ -9,7 +9,7 @@ module.exports.isAuthorized = async (req, res, next) => {
       throw new Exception("Token is not Bearer Token");
     token = token.slice(7, token.length).trimLeft();
     const decoded = await verifyToken(token, process.env.JWT_SECRET_KEY);
-    req.user = decoded
+    req.auth = decoded
     next();
   } catch ({ message = "Token is not valid" }) {
     res.status(statusCodes.UNAUTHORIZED).send({ message });

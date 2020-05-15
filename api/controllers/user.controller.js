@@ -2,7 +2,7 @@ const User = require('../../models/user.model');
 const { Exception, hashPassword, checkIsImage } = require('../../utils');
 const isEmail = require('validator/lib/isEmail');
 const { statusCodes } = require('../../config/globals');
-module.exports.registerUser = async (req, res, next) => {
+const registerUser = async (req, res, next) => {
 	try {
 		const { email, username, fullName, password, birthday } = req.body;
 		// check email valid
@@ -25,14 +25,13 @@ module.exports.registerUser = async (req, res, next) => {
 	}
 };
 
-module.exports.updateAvatar = async (req, res, next) => {
+const updateAvatar = async (req, res, next) => {
 	try {
 		const { avatarUrl } = req.body;
         if(!avatarUrl) throw new Exception('invalid avatarUrl')
 		const { id } = req.params;
-        const { authId } = req.user;
         // check id match with auth
-        if(authId !== id) throw new Exception('invalid id')
+        if(req.auth._id !== id) throw new Exception('invalid id')
         const user = await User.findByIdAndUpdate(id, {avatarUrl}, {new: true})
         if(!user) throw new Exception('user not found', statusCodes.NOT_FOUND)        
         res.status(statusCodes.OK).send({message: 'updated avatar successful'})
@@ -41,7 +40,7 @@ module.exports.updateAvatar = async (req, res, next) => {
 	}
 };
 
-module.exports.getUserById = async (req, res, next) => {
+const getUserById = async (req, res, next) => {
 	try {
 		const {id} = req.params
 		if(!id) throw new Exception('invalid id');
@@ -54,4 +53,9 @@ module.exports.getUserById = async (req, res, next) => {
 }
 
 
+module.exports  = {
+	registerUser,
+	updateAvatar,
+	getUserById,
+}
 

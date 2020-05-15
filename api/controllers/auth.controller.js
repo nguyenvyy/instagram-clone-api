@@ -4,7 +4,7 @@ const User = require('../../models/user.model')
 const { statusCodes, env } = require('../../config/globals');
 
 
-module.exports.login = async (req, res, next) => {
+const login = async (req, res, next) => {
     try {
         const {username, password} = req.body
         if(!username || !password) throw new Exception('username or password incorrect')
@@ -19,4 +19,8 @@ module.exports.login = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
+}
+
+module.exports = {
+    login
 }
