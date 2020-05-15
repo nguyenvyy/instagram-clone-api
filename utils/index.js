@@ -31,4 +31,4 @@ module.exports = {
 	checkIsImage
 };
 
-hashPassword('123123').then(res => console.log(res))
+// hashPassword('123123').then(res => console.log(res))

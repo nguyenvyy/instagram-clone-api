@@ -36,6 +36,7 @@ const getCommentsByPostId = async (req, res, next) => {
             { postId }, 
             { postId: 0, updatedAt: 0, __v: 0 }
             )
+            .sort({createdAt: -1})
             .populate('byUser', 'username avatarUrl');
 		if (!comments) throw new Exception('comments not found', statusCodes.NOT_FOUND);
 		return res.status(statusCodes.OK).send({ comments });
