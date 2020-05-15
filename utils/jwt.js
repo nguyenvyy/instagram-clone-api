@@ -6,20 +6,14 @@ const jwt = require("jsonwebtoken");
  * @param {string} secretKey
  * @param {string} tokenLife  'zeit/ms'
  */
-const generateAccessToken = (user, secretKey, tokenLife = "1d") => {
-  const payload = {
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-    role: user.role
-  };
+const generateAccessToken = (payload, secretKey, tokenLife = "1d") => {
   const option = {
     algorithm: "HS256",
     expiresIn: tokenLife
   };
   return new Promise((rs, rj) => {
     jwt.sign(payload, secretKey, option, (err, token) => {
-      if (err) rj(false);
+      if (err) rj(err);
       rs(token);
     });
   });
@@ -29,6 +23,7 @@ const generateAccessToken = (user, secretKey, tokenLife = "1d") => {
  * This module used for verify jwt token
  * @param {*} token
  * @param {*} secretKey
+ * @returns decoded
  */
 const verifyToken = (token, secretKey) => {
   return new Promise((resolve, reject) => {

@@ -8,8 +8,13 @@ module.exports = {
   hashPassword: plainPassword => {
     return bcrypt.hash(plainPassword, 10);
   },
-  verifyPassword(hashPassword, plainPassword) {
-    return bcrypt.compare(plainPassword, hashPassword);
+  /**
+   * 
+   * @param {string} hashedPassword 
+   * @param {string} plainPassword 
+   */
+  verifyPassword(hashedPassword, plainPassword) {
+    return bcrypt.compare(plainPassword, hashedPassword);
   },
   /**
    * Check file is image of ['image/png', 'image/jpeg']
