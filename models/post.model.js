@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+const Comment = require('./comment.model')
 const postSchema = new Schema({
 	byUser: {
 		type: Schema.Types.ObjectId,
@@ -26,6 +26,11 @@ postSchema.methods.checkUserIsLiked = function(userId) {
 	return this.likeByIds.includes(userId);
 };
 
+postSchema.methods.getCommentCount = async function() {
+	
+	const count = await Comment.countDocuments({postId: this._id}) 
+	return count
+}
 postSchema.methods.getId = function() {
 	return this._id.toString();
 };

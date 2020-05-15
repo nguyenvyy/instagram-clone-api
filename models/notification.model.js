@@ -15,9 +15,10 @@ const notificationSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true
     },
-    content: {
+    action: {
         type: String,
         required: true,
+        enum: ['like', 'comment']
     }
 }, {timestamps: true})
 
