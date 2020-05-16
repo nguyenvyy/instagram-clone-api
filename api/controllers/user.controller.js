@@ -6,21 +6,20 @@ const registerUser = async (req, res, next) => {
 	try {
 		const { email, username, fullName, password, birthday } = req.body;
 		// check email valid
-		if (!isEmail(email)) throw new Exception('Invalid email');
+		if (!isEmail(email)) throw new Exception('Email không hợp lệ');
 		// check existed: username & email
 		const [ isExistedEmail, isExistedUsername ] = await Promise.all([
 			User.exists({ email }),
 			User.exists({ username })
 		]);
-		if (isExistedEmail) throw new Exception('Email existed');
-		if (isExistedUsername) throw new Exception('username existed');
-		// hash password
-		const hashedPassword = await hashPassword(password);
+		if (isExistedEmail) throw new Exception('Email đã tồn tại');
+		if (isExistedUsername) throw new Exception('Tên người dùng đã tồn tại');
 		// create new user
-		const user = new User({ email, username, fullName, password: hashedPassword, birthday });
+		const user = new User({ email, username, fullName, password, birthday });
         await user.save();
-		return res.status(statusCodes.OK).send({message: 'registered successful'});
+		return res.status(statusCodes.OK).send({message: 'Đăng ký tài khoản thành công'});
 	} catch (error) {
+		// console.log(error.message)
 		next(error);
 	}
 };
