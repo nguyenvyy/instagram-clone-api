@@ -1,5 +1,6 @@
 const {Schema, model} = require("mongoose");
 const isEmail = require('validator/lib/isEmail')
+const {hashPassword} = require('../utils')
 const userSchema = new Schema({
   email: {
     type: String,
@@ -29,17 +30,24 @@ const userSchema = new Schema({
     minLength: 6,
   },
   birthday : {
-    required: true,
     type: Date,
   },
   avatarUrl: {
     type: String
-  }
+  },
 }, {timestamps: true});
 
 
 userSchema.methods.getId = function() {
   return this._id.toString()
 }
+
+userSchema.pre('save',async function (next) {
+  if (this.isModified('password')) {
+      this.password = await hashPassword(this.password)
+  }
+  next()
+})
+
 
 module.exports = model("User", userSchema);
