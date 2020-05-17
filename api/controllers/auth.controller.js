@@ -13,8 +13,9 @@ const login = async (req, res, next) => {
         const isValidPassword = await verifyPassword(user.password, password)
         if(!isValidPassword) throw new Exception('username or password incorrect')
         delete user._doc.password
+        const {avatarUrl} = user._doc
         const token = await generateAccessToken(
-            {_id: user._id}, env.JWT_SECRET_KEY, '7d')
+            {_id: user._id, username: user._doc.username, avatarUrl}, env.JWT_SECRET_KEY, '7d')
         res.status(statusCodes.OK).send({user, token})
     } catch (error) {
         next(error)
