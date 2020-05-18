@@ -7,7 +7,7 @@ const addNewPost = async (req, res, next) => {
         const {byUser, caption, imageUrl} = req.body
         const post = new Post({byUser, caption, imageUrl})
         await post.save()
-        return res.status(statusCodes.OK).send({post})
+        return res.status(statusCodes.OK).send({post:{...post._doc, canLike: true}})
     } catch (error) {
         next(error)
     }
@@ -35,7 +35,7 @@ const likePost = async (req, res, next) => {
             action: 'like'
         })
         await notification.save()
-        return res.status(statusCodes.OK).send({post})
+        return res.status(statusCodes.OK).send({post:{...post._doc, canLike: false}})
     } catch (error) {
         next(error)
     }
