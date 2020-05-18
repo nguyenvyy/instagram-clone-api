@@ -19,7 +19,12 @@ const likePost = async (req, res, next) => {
         const authId = req.auth._id
         const {likedUserId} = req.body
         if(authId !== likedUserId) throw new Exception('invalid likedUserId')
-        const post = await Post.findOneAndUpdate({_id: id, likeByIds: {$nin: likedUserId}}, {$push: {likeByIds: likedUserId}}, {new: true})
+        const post = await Post.findOneAndUpdate({
+            _id: id, 
+            likeByIds: {$nin: likedUserId}
+        }, {
+            $push: {likeByIds: likedUserId}
+        }, {new: true}).populate('byUser', 'username avatarUrl')
         //check post not found or user liked
         if(!post) throw new Exception('post not found or user liked')
         // add notification for post author
@@ -36,18 +41,28 @@ const likePost = async (req, res, next) => {
     }
 }
 
+const getLengthPosts = async (req, res, next) => {
+    try {
+        const length = await Post.estimatedDocumentCount()
+        return res.status(statusCodes.OK).send({length})
+    } catch (error) {
+        next(error)
+    }
+}
+
 const getPosts = async (req, res, next) => {
     try {
-        let {page = 0, limit = 5, byUser} = req.query
+        let {skip = 0, limit = 5, byUser} = req.query
         const authId = req.auth._id
-        page = +page
+        skip = +skip
         limit = +limit
         let query = {}
         if(byUser) {
             query.byUser = byUser
         }
-        const skip = limit * page
-        let posts = await Post.find(query, null, {skip, limit}).sort({createdAt: -1})
+        let posts = await Post.find(query, null, {skip, limit})
+            .sort({createdAt: -1})
+            .populate('byUser', 'username avatarUrl')
         if(!posts) throw new Exception('Posts not found', statusCodes.NOT_FOUND)
         posts = await Promise.all(posts.map(async post => {
             const canLike = !post.checkUserIsLiked(authId)
@@ -64,7 +79,7 @@ const getPostById = async (req, res, next) => {
     try {
         const {id} = req.params
         const authId = req.auth._id
-        const post = await Post.findById(id)    
+        const post = await Post.findById(id).populate('byUser', 'username avatarUrl')
         if(!post) throw new Exception('post not found', statusCodes.NOT_FOUND)
         const canLike = !post.checkUserIsLiked(authId)
         const commentCount = await post.getCommentCount()
@@ -81,5 +96,6 @@ module.exports = {
     addNewPost, 
     getPosts,
     getPostById,
-    likePost
+    likePost,
+    getLengthPosts
 }
