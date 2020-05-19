@@ -29,14 +29,15 @@ const addComment = async (req, res, next) => {
 const getCommentsByPostId = async (req, res, next) => {
 	try {
 		const { id: postId } = req.params;
-		let { page = 0, limit = 5 } = req.query;
-		page = +page;
+		let { skip = 0, limit = 5 } = req.query;
+		skip = +skip;
 		limit = +limit;
         const comments = await Comment.find(
             { postId }, 
-            { postId: 0, updatedAt: 0, __v: 0 }
+            { postId: 0, updatedAt: 0, __v: 0 },
+            {skip, limit}
             )
-            .sort({createdAt: -1})
+            .sort({createdAt: 1})
             .populate('byUser', 'username avatarUrl');
 		if (!comments) throw new Exception('comments not found', statusCodes.NOT_FOUND);
 		return res.status(statusCodes.OK).send({ comments });
