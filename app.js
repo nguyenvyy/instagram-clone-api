@@ -17,7 +17,8 @@ const corsOptions = {
   origin: "https://gtf7d.csb.app"
 };
 // middleware
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.static("public"));
 app.use(bodyParse.urlencoded({ extended: false }));
 app.use(bodyParse.json());
