@@ -13,12 +13,14 @@ const errorHandler = require("./api/middlewares/error-handler");
 // init connect  to mongodb atlas
 createConnection();
 // template engine
-
+const corsOptions = {
+  origin: "https://gtf7d.csb.appsss/"
+};
 // middleware
+app.use(cors(corsOptions));
 app.use(express.static("public"));
 app.use(bodyParse.urlencoded({ extended: false }));
 app.use(bodyParse.json());
-app.use(cors());
 
 // init routes
 initRestRoutes(app);
