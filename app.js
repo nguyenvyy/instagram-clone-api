@@ -14,7 +14,7 @@ const errorHandler = require("./api/middlewares/error-handler");
 createConnection();
 // template engine
 const corsOptions = {
-  origin: "https://gtf7d.csb.appsss"
+  origin: "https://gtf7d.csb.app"
 };
 // middleware
 app.use(cors(corsOptions));
