@@ -1,6 +1,6 @@
 const {Schema, model} = require("mongoose");
 const isEmail = require('validator/lib/isEmail')
-const {ObjectId, String, Date} = Schema.Types
+const {ObjectId, String, Date, Boolean} = Schema.Types
 const {hashPassword} = require('../utils')
 const userSchema = new Schema({
   email: {
@@ -39,6 +39,10 @@ const userSchema = new Schema({
   following: {
     type: [ObjectId],
     ref: 'User'
+  },
+  status: {
+    type: Boolean,
+    default: false
   }
 }, {timestamps: true});
 
