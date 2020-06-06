@@ -1,10 +1,19 @@
 # Instagram Clone(BE)
 
+## Requirements
+
+- Node
+- MongoDB server(local or cloud)
+
 ## Using
+
 Restful server with
+
  - Express
  - Mongoose + MongoDB(MongoDB Atlas)
- - Authentication with jwt 
+ - Authentication with **jwt**
+ - Store **photos** in Cloudinary
+
 
 ## Install package
 
