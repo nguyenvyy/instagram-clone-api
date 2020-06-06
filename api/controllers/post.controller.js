@@ -1,5 +1,5 @@
 const Post = require('../../models/post.model')
-const Notification = require('../../models/notification.model')
+const Reaction = require('../../models/reaction.model')
 const { statusCodes } = require('../../config/globals')
 const { Exception } = require('../../utils')
 const addNewPost = async (req, res, next) => {
@@ -28,7 +28,7 @@ const likePost = async (req, res, next) => {
         //check post not found or user liked
         if(!post) throw new Exception('post not found or user liked')
         // add notification for post author
-        const notification = new Notification({
+        const notification = new Reaction({
             toUserId: post._doc.byUser, 
             byUser: likedUserId, 
             byPostId: post._id,

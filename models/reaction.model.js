@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 
-const notificationSchema = new Schema({
+const reactionSchema = new Schema({
     toUserId: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -18,8 +18,19 @@ const notificationSchema = new Schema({
     action: {
         type: String,
         required: true,
-        enum: ['like', 'comment']
+        enum: [
+            'like', 
+            'like_comment',
+            'comment', 
+            'reply_comment', 
+            'follow',
+            'un_follow',
+        ]
     }
 }, {timestamps: true})
 
-module.exports = model('Notification', notificationSchema)
+reactionSchema.methods.values = function() {
+	
+}
+
+module.exports = model('Reaction', reactionSchema)

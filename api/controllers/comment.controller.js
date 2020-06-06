@@ -1,5 +1,5 @@
 const Comment = require('../../models/comment.model');
-const Notification = require('../../models/notification.model');
+const Reaction = require('../../models/reaction.model');
 const { Exception } = require('../../utils');
 const { statusCodes } = require('../../config/globals');
 
@@ -12,7 +12,7 @@ const addComment = async (req, res, next) => {
         await comment.save();
         
         // add notification for post author
-        const notification = new Notification({
+        const notification = new Reaction({
             toUserId: postAuthor, 
             byUser: byUser, 
             byPostId: postId,

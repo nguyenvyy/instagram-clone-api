@@ -1,4 +1,4 @@
-const Notification = require('../../models/notification.model')
+const Reaction = require('../../models/reaction.model')
 const {Exception} = require('../../utils')
 const { statusCodes } = require('../../config/globals')
 const getNotificationByUser = async (req, res , next) => {
@@ -9,7 +9,7 @@ const getNotificationByUser = async (req, res , next) => {
         limit = +limit
         const authId = req.auth._id
         if(userId !== authId) throw new Exception('invalid userId')
-        const notifications = await Notification.find(
+        const notifications = await Reaction.find(
             {toUserId: userId, byUser: {$ne: userId}}, null, {skip, limit})
             .sort({createdAt: -1})
             .populate('byUser', 'username avatarUrl')
