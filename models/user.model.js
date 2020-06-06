@@ -1,5 +1,6 @@
 const {Schema, model} = require("mongoose");
 const isEmail = require('validator/lib/isEmail')
+const {ObjectId, String, Date} = Schema.Types
 const {hashPassword} = require('../utils')
 const userSchema = new Schema({
   email: {
@@ -35,8 +36,15 @@ const userSchema = new Schema({
   avatarUrl: {
     type: String
   },
+  following: {
+    type: [ObjectId],
+    ref: 'User'
+  }
 }, {timestamps: true});
 
+userSchema.methods.values = function() {
+	
+}
 
 userSchema.methods.getId = function() {
   return this._id.toString()
