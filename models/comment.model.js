@@ -25,14 +25,18 @@ const commentSchema = new Schema({
     }
 }, {timestamps: true})
 
+commentSchema.methods.values = function() {
+	
+}
+
 commentSchema.methods.checkUserIsLiked = function(userId) {
 	return this.likeByIds ? this.likeByIds.includes(userId) : false;
 };
 
-commentSchema.method.getRelyComments = function(commentId, postId) {
+commentSchema.method.getReplyComments = function(commentId, postId) {
 
 }
-commentSchema.method.getNumOfRelyComments = function(commentId, postId) {
+commentSchema.method.getNumOfReplyComments = function(commentId, postId) {
 
 }
 
