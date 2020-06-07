@@ -14,7 +14,7 @@ const blockingSchema = new Schema({
 }, {timestamps: true})
 
 blockingSchema.methods.values = function() {
-
+ 
 }
 
 module.exports = model('Blocking', blockingSchema)
