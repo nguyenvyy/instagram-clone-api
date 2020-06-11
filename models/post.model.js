@@ -23,10 +23,14 @@ const postSchema = new Schema({
 }, {timestamps: true});
 
 postSchema.methods.values = function() {
-	
+	const {byUser, caption, imageUrl, likeByIds, _id, createdAt} = this
+	return {
+		_id, byUser, caption, imageUrl, numLikes: likeByIds ? likeByIds.length : 0, createdAt
+	}
 }
 postSchema.methods.checkUserIsLiked = function(userId) {
-	return this.likeByIds ? this.likeByIds.includes(userId) : false;
+	if(this.likeByIds.length === 0 ) return true
+	return this.likeByIds.includes(userId) ? false : true
 };
 
 postSchema.methods.getCommentCount = async function() {

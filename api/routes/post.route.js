@@ -6,5 +6,6 @@ router.get('/length', controller.getLengthPosts)
 router.post('/', controller.addNewPost)
 router.get('/:id', controller.getPostById)
 router.get('/:id/comments', commentController.getCommentsByPostId)
-router.patch('/:id', controller.likePost)
+router.patch('/:id/like', controller.likePost)
+router.patch('/:id/unlike', controller.unlikePost)
 module.exports = router

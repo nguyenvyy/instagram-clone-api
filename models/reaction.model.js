@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const reactionTypes = require('../constants/reaction-types')
 
 const reactionSchema = new Schema({
     toUserId: {
@@ -13,24 +14,15 @@ const reactionSchema = new Schema({
     },
     byPostId: {
         type: Schema.Types.ObjectId,
-        required: true
     },
     action: {
         type: String,
         required: true,
-        enum: [
-            'like', 
-            'like_comment',
-            'comment', 
-            'reply_comment', 
-            'follow',
-            'un_follow',
-        ]
+        enum: Object.values(reactionTypes)
     }
 }, {timestamps: true})
 
 reactionSchema.methods.values = function() {
 	
 }
-
 module.exports = model('Reaction', reactionSchema)

@@ -20,17 +20,25 @@ const commentSchema = new Schema({
         type: ObjectId,
         index: true
     },
-    likeByUserId: {
+    likeByIds: {
         type: [ObjectId],
     }
 }, {timestamps: true})
 
 commentSchema.methods.values = function() {
-	
+    const { _id, byUser, postId, content, replyToCommentId = null, likeByIds, createdAt  } = this
+    return {
+        _id, byUser, postId, 
+        content, replyToCommentId, createdAt,
+        numLikes: likeByIds.length,
+        likeByIds
+    }
 }
 
 commentSchema.methods.checkUserIsLiked = function(userId) {
-	return this.likeByIds ? this.likeByIds.includes(userId) : false;
+    console.log(userId, this.likeByIds)
+    if(this.likeByIds.length === 0 ) return true
+	return this.likeByIds.includes(userId) ? false : true
 };
 
 commentSchema.method.getReplyComments = function(commentId, postId) {
