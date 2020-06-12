@@ -9,7 +9,6 @@ if(env.NODE_ENV === 'development') {
 const corsOptions = {
     origin: function (origin, callback) {
       if (whitelist.indexOf(origin) !== -1) {
-        console.log(origin)
         callback(null, true)
       } else {
         callback(new Error('Not allowed by CORS'))

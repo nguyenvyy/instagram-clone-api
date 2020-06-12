@@ -29,8 +29,8 @@ postSchema.methods.values = function() {
 	}
 }
 postSchema.methods.checkUserIsLiked = function(userId) {
-	if(this.likeByIds.length === 0 ) return true
-	return this.likeByIds.includes(userId) ? false : true
+	if(this.likeByIds.length === 0 ) return false
+	return this.likeByIds.includes(userId) ? true : false
 };
 
 postSchema.methods.getCommentCount = async function() {

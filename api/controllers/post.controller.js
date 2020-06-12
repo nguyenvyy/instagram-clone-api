@@ -12,7 +12,7 @@ const addNewPost = async (req, res, next) => {
         });
         post.imageUrl = uploader.url
         await post.save()
-        return res.status(statusCodes.OK).send({ post: { ...post.values()} })
+        return res.status(statusCodes.OK).send({ post: { ...post.values(), canLike: true, commentCount: 0} })
     } catch (error) {
         next(error)
     }
@@ -22,9 +22,13 @@ const likePost = async (req, res, next) => {
     try {
         const { id } = req.params
         const authId = req.auth._id
-        const post = await Post.findByIdAndUpdate(id, {
-            $addToSet: { likeByIds: authId }
-        })
+        const post = await Post.findOneAndUpdate(
+            {
+                _id: id, 
+                likeByIds: {$nin: [authId]} 
+            }, 
+            { $push: { likeByIds: authId } }
+        )
         //check post not found 
         if (!post) throw new Exception('post not found')
         // add notification for post author

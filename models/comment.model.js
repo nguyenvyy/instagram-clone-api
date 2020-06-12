@@ -36,9 +36,8 @@ commentSchema.methods.values = function() {
 }
 
 commentSchema.methods.checkUserIsLiked = function(userId) {
-    console.log(userId, this.likeByIds)
-    if(this.likeByIds.length === 0 ) return true
-	return this.likeByIds.includes(userId) ? false : true
+	if(this.likeByIds.length === 0 ) return false
+	return this.likeByIds.includes(userId) ? true : false
 };
 
 commentSchema.method.getReplyComments = function(commentId, postId) {

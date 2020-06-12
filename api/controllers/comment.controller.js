@@ -19,8 +19,7 @@ const addComment = async (req, res, next) => {
             action: 'comment'
         })
         notification.save()
-
-        return res.status(statusCodes.OK).send({ comment });
+        return res.status(statusCodes.OK).send({comment: { ...comment.values(), canLike: true,replyComments: [], numReplyComments: 0  }});
     } catch (error) {
         next(error);
     }
@@ -31,14 +30,16 @@ const likeComment = async (req, res, next) => {
         const { id } = req.params
         const authId = req.auth._id
         const comment = await Comment.findOneAndUpdate(
-            { _id: id },
-            { $addToSet: { likeByIds: authId } }
+            {
+                _id: id, 
+                likeByIds: {$nin: [authId]} 
+            },
+            { $push: { likeByIds: authId } }
         )
             .populate('byUser', 'username avatarUrl')
         //check post not found or user liked
         if (!comment) throw new Exception('comment not found')
         // add notification for post author
-        console.log(reactionTypes)
         const notification = new Reaction({
             toUserId: comment._doc.byUser,
             byUser: authId,
@@ -91,10 +92,10 @@ const getCommentsByPostId = async (req, res, next) => {
             }).populate('byUser', 'username avatarUrl');
             
             replyComments = replyComments.map(replyComment => ({
-                ...replyComment.values(), canLike: replyComment.checkUserIsLiked(authId)
+                ...replyComment.values(), canLike: !replyComment.checkUserIsLiked(authId)
             }))
 
-            return {...comment.values(), canLike: comment.checkUserIsLiked(authId), replyComments,numReplyComments: replyComments.length}
+            return {...comment.values(), canLike: !comment.checkUserIsLiked(authId), replyComments,numReplyComments: replyComments.length}
         }))
         if (!comments) throw new Exception('comments not found', statusCodes.NOT_FOUND);
         return res.status(statusCodes.OK).send({ comments });
