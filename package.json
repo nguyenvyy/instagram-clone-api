@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "deploy": "git push heroku"
   },
   "dependencies": {
     "@sendgrid/mail": "7.0.1",

@@ -13,12 +13,21 @@ const errorHandler = require("./api/middlewares/error-handler");
 // init connect  to mongodb atlas
 createConnection();
 // template engine
-const corsOptions = {
-  origin: "https://gtf7d.csb.app"
+const whitelist = {
+  origin: ['https://instagram-clone-d083b.web.app', 'https://instagram-clone-d083b.firebaseapp.com']
 };
-// middleware
-// app.use(cors(corsOptions));
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      console.log(origin)
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions));
+// app.use(cors());
 app.use(express.static("public"));
 app.use(bodyParse.urlencoded({ extended: false }));
 app.use(bodyParse.json());
