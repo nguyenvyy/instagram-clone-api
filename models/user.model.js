@@ -36,10 +36,6 @@ const userSchema = new Schema({
   avatarUrl: {
     type: String
   },
-  following: {
-    type: [ObjectId],
-    ref: 'User'
-  },
   status: {
     type: Boolean,
     default: false
