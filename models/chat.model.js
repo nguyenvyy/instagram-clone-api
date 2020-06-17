@@ -3,7 +3,9 @@ const { ObjectId } = Schema.Types
 const chatSchema = new Schema({
     host: {
         type: [ObjectId],
-        required: true
+        required: true,
+        index: true,
+        ref: 'User'
     },
     toUser: {
         type: [ObjectId],

@@ -7,7 +7,7 @@ const relationshipSchema = new Schema({
         index: true,
         ref: 'User'
     },
-    toUser: {
+    withUser: {
         type: ObjectId,
         required: true,
         index: true,
