@@ -4,7 +4,7 @@ const isEmail = require('validator/lib/isEmail');
 const { statusCodes } = require('../../config/globals');
 const registerUser = async (req, res, next) => {
 	try {
-		const { email, username, fullName, password, birthday } = req.body;
+		const { email, username, fullname, password, birthday } = req.body;
 		// check email valid
 		if (!isEmail(email)) throw new Exception('Email không hợp lệ');
 		// check existed: username & email
@@ -15,7 +15,7 @@ const registerUser = async (req, res, next) => {
 		if (isExistedEmail) throw new Exception('Email đã tồn tại');
 		if (isExistedUsername) throw new Exception('Tên người dùng đã tồn tại');
 		// create new user
-		const user = new User({ email, username, fullName, password, birthday });
+		const user = new User({ email, username, fullname, password, birthday });
         await user.save();
 		return res.status(statusCodes.OK).send({message: 'Đăng ký tài khoản thành công'});
 	} catch (error) {
