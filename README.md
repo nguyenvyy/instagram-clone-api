@@ -1,5 +1,7 @@
 # Instagram Clone(BE)
 
+Clone Instagram with MERN Stack
+
 ## Requirements
 
 - Node
@@ -43,4 +45,4 @@ npm run dev
 
 ## Font-end
 
-[github](https://github.com/learn-in-codersx/instagram-clone-fe.git)
+[github](https://github.com/anhhungcusa/instagram-clone-app)
