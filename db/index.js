@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const {env} = require('../config/globals')
+const MONGODB_SERVER_URI = 'mongodb://localhost:27017/'
+const DATABASE_NAME = 'instagram'
 const createConnection = () =>
   mongoose
-    .connect(env.MONGODB_CONNECT_URI, {
+    .connect(MONGODB_SERVER_URI + DATABASE_NAME, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
